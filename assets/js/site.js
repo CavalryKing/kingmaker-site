@@ -89,6 +89,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  /* Play-once animations (mosaic, chess guide lines, process arcs, closing circle).
+     CSS only hides their start state under .js, so without JS everything shows complete. */
+  const inview = document.querySelectorAll('[data-inview]');
+  if (inview.length) {
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if ('IntersectionObserver' in window && !still) {
+      const io2 = new IntersectionObserver((entries) => {
+        entries.forEach((en) => {
+          if (en.isIntersecting) { en.target.classList.add('is-in'); io2.unobserve(en.target); }
+        });
+      }, { rootMargin: '0px 0px -10% 0px', threshold: 0.2 });
+      inview.forEach((el) => io2.observe(el));
+    } else {
+      inview.forEach((el) => el.classList.add('is-in'));
+    }
+  }
+
   /* Reduced motion: also pause SVG (SMIL) animations, which CSS can't stop */
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
     document.querySelectorAll('svg').forEach((s) => s.pauseAnimations && s.pauseAnimations());

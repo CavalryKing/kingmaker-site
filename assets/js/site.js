@@ -10,7 +10,7 @@ const KM_CONFIG = {
   whatsapp: '27794210966',
   email: 'hello@thekingmakerstudio.com',
   web3formsKey: '596c3cac-bb00-4173-a614-9b5a9e9a93f7',
-  replyHours: '[X]'
+  replyHours: '12'
 };
 
 /* ---------- 2. PRICES — change prices here ----------
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const setOpen = (open) => {
       btn.setAttribute('aria-expanded', String(open));
       nav.classList.toggle('is-open', open);
-      btn.querySelector('.menu-btn__label').textContent = open ? 'Close' : 'Menu';
+      btn.querySelector('.menu-btn__label').textContent = open ? 'Close menu' : 'Menu';
     };
     btn.addEventListener('click', () => setOpen(btn.getAttribute('aria-expanded') !== 'true'));
     nav.addEventListener('click', (e) => { if (e.target.closest('a')) setOpen(false); });
@@ -93,5 +93,124 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('booking')) kmBooking();
 });
 
-/* Booking form — filled in when /book is built */
-function kmBooking() {}
+/* ---------- Booking form (/book) ----------
+   Sends to Web3Forms with fetch and shows the confirmation in place.
+   Without JS the form still posts to Web3Forms, which redirects back to /book/#sent. */
+function kmBooking() {
+  const panel = document.getElementById('booking');
+  const form = document.getElementById('booking-form');
+  if (!form) return;
+  const btn = document.getElementById('submit-btn');
+  const note = document.getElementById('meet-note');
+  const err = document.getElementById('form-error');
+  const sent = document.getElementById('sent');
+  const date = document.getElementById('f-date');
+  const key = form.querySelector('[name="access_key"]');
+  if (KM_CONFIG.web3formsKey && !/^\[.*\]$/.test(KM_CONFIG.web3formsKey)) key.value = KM_CONFIG.web3formsKey;
+
+  // Pre-select the package from ?package=squire|knight|crown
+  const want = new URLSearchParams(location.search).get('package');
+  if (want) {
+    const r = [...form.elements.package].find((i) => i.value.toLowerCase() === want.toLowerCase());
+    if (r) r.checked = true;
+  }
+
+  // No dates in the past
+  const today = new Date();
+  const iso = (d) => new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+  date.min = iso(today);
+
+  const val = (n) => {
+    const el = form.elements[n];
+    return (el && (el.value || '').trim()) || '';
+  };
+
+  const meetingPhrase = { 'Phone call': 'a phone call', 'Online meeting': 'an online meeting', 'In person': 'an in-person meeting' };
+
+  const label = () => {
+    const pkg = val('package');
+    let t = 'Request ' + meetingPhrase[val('meeting')];
+    if (pkg && pkg !== 'Not sure yet') t += ' about ' + pkg;
+    return t;
+  };
+
+  const update = () => {
+    btn.textContent = label();
+    const m = form.querySelector('[name="meeting"]:checked');
+    note.textContent = m ? m.dataset.note : '';
+  };
+  form.addEventListener('change', update);
+  update();
+
+  const niceDate = (v) => {
+    if (!v) return 'Any day';
+    const d = new Date(v + 'T12:00:00');
+    return d.toLocaleDateString('en-ZA', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  };
+
+  const summaryRows = () => [
+    ['Package', val('package')],
+    ['Meeting', val('meeting')],
+    ['When', niceDate(val('preferred_date')) + ', ' + val('time_window').toLowerCase()],
+    ['Name', val('name')],
+    ['Business', val('business')],
+    ['What I do', val('what_you_do')],
+    ['WhatsApp', val('whatsapp')],
+    ['Email', val('email')],
+    ['Message', val('message')]
+  ].filter((r) => r[1]);
+
+  const waText = () =>
+    'Hi KingMaker, I’d like to book ' + meetingPhrase[val('meeting')] + '.\n\n' +
+    summaryRows().map(([k, v]) => k + ': ' + v).join('\n');
+
+  const waLink = () => 'https://wa.me/' + KM_CONFIG.whatsapp + '?text=' + encodeURIComponent(waText());
+  const mailLink = () => 'mailto:' + KM_CONFIG.email + '?subject=' + encodeURIComponent('Booking request') + '&body=' + encodeURIComponent(waText());
+
+  const showError = (html) => { err.innerHTML = html; err.classList.add('is-on'); err.focus && err.scrollIntoView({ block: 'center', behavior: 'smooth' }); };
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    err.classList.remove('is-on');
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+
+    const rows = summaryRows();
+    form.elements.subject.value = 'Booking request: ' + val('meeting') + ', ' + val('package') + ' (' + val('name') + ')';
+    const data = Object.fromEntries(new FormData(form));
+    data.preferred_date = niceDate(val('preferred_date'));
+    if (val('email')) data.replyto = val('email');
+    delete data.redirect;
+
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const out = await res.json().catch(() => ({}));
+      if (!res.ok || out.success === false) throw new Error(out.message || 'Request failed');
+
+      const dl = document.getElementById('sent-summary');
+      dl.innerHTML = '';
+      rows.forEach(([k, v]) => {
+        const dt = document.createElement('dt'); dt.textContent = k.toUpperCase();
+        const dd = document.createElement('dd'); dd.textContent = v;
+        dl.append(dt, dd);
+      });
+      dl.hidden = false;
+      document.getElementById('sent-wa-link').href = waLink();
+      document.getElementById('sent-wa').hidden = false;
+      panel.classList.add('is-sent');
+      sent.classList.add('is-on');
+      sent.focus({ preventScroll: true });
+      panel.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    } catch (ex) {
+      showError('Sorry, that didn’t go through. You can <a href="' + waLink() + '" target="_blank" rel="noopener">send it on WhatsApp</a> or <a href="' + mailLink() + '">email it to us</a> instead. Your details are already filled in.');
+    } finally {
+      btn.disabled = false;
+      update();
+    }
+  });
+}

@@ -16,16 +16,19 @@ All launch photos are from Pexels under the [Pexels License](https://www.pexels.
 | `process/hand-over` | Monstera Production | https://www.pexels.com/photo/9429449/ | Pexels License |
 | `cta/result` | Ketut Subiyanto | https://www.pexels.com/photo/4353623/ | Pexels License |
 
+Supplied by KingMaker (all rights reserved, not for reuse):
+
+| File | Notes |
+|---|---|
+| `packages/pawn`, `packages/knight`, `packages/king` | Chess set on black marble. Already black and white, so they skip the grading step. |
+| `founder/sam` | Founder portrait. Background extended above the head so the arch's curve clears the hair. Skips the grading step. |
+
 ## Still to supply
 
 These slots show hatched placeholders labelled with the file they need.
 
 | Slot | File | Brief |
 |---|---|---|
-| Squire card | `packages/pawn.webp` | Single pawn, black backdrop, hard side light, 16:9, piece centred |
-| Knight card | `packages/knight.webp` | Knight, three-quarter angle, same set, backdrop and light |
-| Crown card | `packages/king.webp` | King, slightly low angle, light catching the crown, same set |
-| Behind the crown | `founder/sam.webp` | Chest-up, black top, window light, 4:5 portrait |
 | LightVille case | `work/lightville-before.webp`, `work/lightville-after.webp` | Old LGSA logo/site, then the new LightVille Games site, 4:3 |
 | JN Luxe case | `work/jnluxe-before.webp`, `work/jnluxe-after.webp` | Old WhatsApp booking chat (blurred), then the new booking page, 4:3 |
 

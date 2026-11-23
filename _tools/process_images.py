@@ -33,6 +33,10 @@ SLOTS = [
     ("work",    "lightville-shot", "lightville-shot.webp", 16 / 9, .5, .5, (800, 1200, 1600), True),
     ("work",    "jnluxe-shot",     "jnluxe-shot.webp",     16 / 9, .5, .5, (800, 1200, 1600), True),
     ("cta",     "result",       "result.jpg",            1,      .50, .30, (480, 960), False),
+    ("packages", "pawn",        "pawn.jpg",              16 / 9, .50, .50, (480, 800, 1280), True),    # already B&W; grading blows out the light
+    ("packages", "knight",      "knight.jpg",            16 / 9, .50, .50, (480, 800, 1280), True),    # already B&W; grading blows out the light
+    ("packages", "king",        "king.jpg",              16 / 9, .50, .50, (480, 800, 1280), True),    # already B&W; grading blows out the light
+    ("founder", "sam",          "sam.jpg",               4 / 5,  .50, .00, (440, 880), True),   # already B&W; grading blows out the wall
 ]
 
 def grade(im: Image.Image) -> Image.Image:

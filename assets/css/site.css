@@ -552,3 +552,53 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .nf .lead { max-width: 480px; }
 .in-progress { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 14px !important; color: var(--g-8a) !important; }
 .in-progress__tag { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; color: var(--g-d4); border: 1px dashed var(--g-4a); border-radius: 999px; padding: 4px 10px; }
+
+/* ==========================================================================
+   v0.2: imagery
+   ========================================================================== */
+
+/* ---------- Trade mosaic (§ 01) ---------- */
+.mosaic {
+  display: grid; gap: 8px; margin: 8px 0 32px;
+  grid-template-columns: repeat(11, minmax(0, 1fr));
+  grid-template-rows: 200px 150px 220px;
+  grid-template-areas:
+    "nail nail nail nail nail photo photo photo photo photo photo"
+    "nail nail nail nail nail n1 handy handy handy handy you"
+    "nail nail nail nail nail tutor tutor tutor barber barber barber";
+}
+.m-nail { grid-area: nail; } .m-photo { grid-area: photo; } .m-n1 { grid-area: n1; }
+.m-handy { grid-area: handy; } .m-you { grid-area: you; } .m-tutor { grid-area: tutor; } .m-barber { grid-area: barber; }
+.mosaic__tile { position: relative; border: 1px solid var(--g-3a); background: var(--g-14); min-width: 0; }
+.mosaic__tile picture, .mosaic__tile img { width: 100%; height: 100%; }
+.mosaic__tile img { object-fit: cover; }
+.mosaic__tile figcaption {
+  position: absolute; left: 12px; bottom: 10px; background: var(--ink); color: var(--paper);
+  font-family: var(--mono); font-size: 11px; letter-spacing: .08em; padding: 3px 7px; line-height: 1.4;
+}
+/* Crosshair marks on the top-left and bottom-right corners */
+.mosaic__tile::before, .mosaic__tile::after {
+  content: "+"; position: absolute; z-index: 1; font-family: var(--mono); font-size: 15px; line-height: 1; color: var(--g-6b);
+}
+.mosaic__tile::before { top: -8px; left: -8px; }
+.mosaic__tile::after { bottom: -8px; right: -8px; }
+.mosaic__hatch { border: 1px solid var(--g-3a); background-color: var(--g-0f); background-image: repeating-linear-gradient(45deg, #2A2A2A 0 1px, transparent 1px 9px); }
+.mosaic__you {
+  border: 1px dashed var(--gold); display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 10px; text-align: center; padding: 6px; font-family: var(--mono); font-size: 10px; letter-spacing: .08em; line-height: 1.4; color: var(--gold);
+}
+.mosaic__you svg { width: 12px; height: 12px; }
+@media (max-width: 760px) {
+  .mosaic {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: 260px 140px 120px 160px;
+    grid-template-areas: "nail nail nail nail" "photo photo photo photo" "n1 handy handy you" "tutor tutor barber barber";
+  }
+  .mosaic__tile figcaption { left: 8px; bottom: 8px; font-size: 10px; }
+}
+/* Blurred to sharp, one block after another (~80 ms apart), starting with nail tech */
+.js .mosaic > * { transition: filter .9s ease, opacity .9s ease; transition-delay: calc(var(--i, 0) * 80ms); }
+.js .mosaic:not(.is-in) > * { filter: blur(8px); opacity: .35; }
+@media (prefers-reduced-motion: reduce) {
+  .js .mosaic > *, .js .mosaic:not(.is-in) > * { filter: none; opacity: 1; transition: none; }
+}

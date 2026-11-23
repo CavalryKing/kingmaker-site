@@ -20,9 +20,9 @@ OUT = ROOT / "assets" / "img"
 
 # section, name, source file, aspect (w/h), focus x, focus y, widths, colour
 SLOTS = [
-    ("hero",    "photographer", "hero-photographer.jpg", 16 / 9, .50, .45, (800, 1600), False),
+    ("hero",    "photographer", "hero-photographer.jpg", 16 / 9, .50, .30, (800, 1600), False),
     ("trades",  "nail-tech",    "nail-tech.jpg",         1 / 1.3, .45, .50, (400, 800, 1200), False),
-    ("trades",  "photographer", "photographer.jpg",      2.2,    .50, .78, (400, 800, 1600), False),
+    ("trades",  "photographer", "photographer.jpg",      2.2,    .50, .42, (400, 800, 1600), False),
     ("trades",  "handyman",     "handyman.jpg",          2.4,    .50, .30, (400, 800, 1200), False),
     ("trades",  "tutor",        "tutor.jpg",             4 / 3,  .50, .50, (400, 800), False),
     ("trades",  "barber",       "barber.jpg",            4 / 3,  .50, .40, (400, 800), False),

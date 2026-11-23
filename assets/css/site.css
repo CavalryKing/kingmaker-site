@@ -666,3 +666,43 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .founder__art svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
 .founder__copy { display: flex; flex-direction: column; gap: 18px; max-width: 520px; }
 @media (max-width: 640px) { .founder { gap: 32px; } .founder__art .lbl { font-size: 15px; } }
+
+/* ---------- Closing circle (homepage) ---------- */
+/* One large circle, part off-screen: hatching on the left, the photo on the right, split by a gold line. */
+.cta--photo .cta__inner { padding-top: 128px; padding-bottom: 128px; }
+.cta--photo .cta__inner .h2 { max-width: 720px; }
+.cta-art { position: absolute; top: 50%; right: -40px; width: 460px; height: 460px; transform: translateY(-50%); pointer-events: none; }
+.cta-art__ring { position: absolute; inset: -50px; border: 1px dashed var(--g-3a); border-radius: 50%; }
+.cta-art__disc { position: absolute; inset: 0; border-radius: 50%; overflow: hidden; border: 1px solid var(--g-3a); background: var(--g-0f); }
+.cta-art__hatch { position: absolute; inset: 0; background-image: repeating-linear-gradient(45deg, var(--g-2e) 0 1px, transparent 1px 10px); }
+.cta-art__photo { position: absolute; inset: 0; clip-path: inset(0 0 0 var(--split, 50%)); }
+.cta-art__photo img { width: 100%; height: 100%; object-fit: cover; }
+.cta-art__split { position: absolute; top: 0; bottom: 0; left: var(--split, 50%); width: 2px; margin-left: -1px; background: var(--gold); }
+@keyframes km-split-photo { from { clip-path: inset(0 0 0 50%); } to { clip-path: inset(0 0 0 30%); } }
+@keyframes km-split-line { from { left: 50%; } to { left: 30%; } }
+/* Scroll-linked where supported: the construction turns into the finished result as you scroll in */
+@supports (animation-timeline: view()) {
+  .cta--photo { view-timeline-name: --cta; }
+  .cta-art__photo { animation: km-split-photo linear both; animation-timeline: --cta; animation-range: entry 15% cover 55%; }
+  .cta-art__split { animation: km-split-line linear both; animation-timeline: --cta; animation-range: entry 15% cover 55%; }
+}
+/* Elsewhere: one smooth move when the circle comes into view (site.js adds .is-in) */
+@supports not (animation-timeline: view()) {
+  .js .cta-art__photo { transition: clip-path 1.6s var(--ease-draw) .2s; }
+  .js .cta-art__split { transition: left 1.6s var(--ease-draw) .2s; }
+  .js .cta-art.is-in { --split: 30%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cta-art__photo, .cta-art__split { animation: none !important; transition: none !important; }
+  .cta-art { --split: 30%; }
+}
+@media (max-width: 1200px) { .cta-art { width: 380px; height: 380px; right: -90px; } }
+/* Phones, option A: circle sits behind the text at reduced opacity */
+@media (max-width: 760px) {
+  .cta--photo .cta__inner { padding-top: 96px; padding-bottom: 96px; }
+  .cta-art { width: 320px; height: 320px; right: -130px; opacity: .4; }
+  .cta-art__ring { inset: -36px; }
+  /* Option B (in use): circle above the text, in flow. Remove "cta--stack" from the section for option A. */
+  .cta--stack .cta-art { position: relative; top: auto; right: auto; transform: none; opacity: 1; width: 260px; height: 260px; margin: 72px -40px 0 auto; }
+  .cta--stack .cta__inner { padding-top: 48px; padding-bottom: 80px; }
+}

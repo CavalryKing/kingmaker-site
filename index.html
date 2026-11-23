@@ -433,20 +433,19 @@
   </section>
 
   <!-- FINAL CTA -->
-  <section class="cta" aria-labelledby="cta-h">
-    <svg viewBox="0 0 1280 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <defs>
-        <!-- Own hatch pattern so its lines can drift without moving the hero's hatch -->
-        <pattern id="km-hatch-cta" width="10" height="10" patternUnits="userSpaceOnUse">
-          <path d="M-1 1 L1 -1 M0 10 L10 0 M9 11 L11 9" style="stroke:#3D3D3D;stroke-width:1.2"/>
-          <animateTransform attributeName="patternTransform" type="translate" from="0 0" to="10 0" dur="3s" repeatCount="indefinite"/>
-        </pattern>
-      </defs>
-      <circle class="dash cta-march" cx="1080" cy="420" r="300"/>
-      <circle class="cta-ring" cx="1080" cy="420" r="200"/>
-      <g class="cta-orbit"><circle class="cta-node" cx="1080" cy="220" r="3.5"/></g>
-      <g class="cta-sway"><circle class="cta-hatch cta-breathe" cx="1180" cy="330" r="90"/></g>
-    </svg>
+  <section class="cta cta--photo cta--stack" aria-labelledby="cta-h">
+    <!-- Half construction, half finished result: the gold split slides left on scroll and the photo half grows from 50% to ~70%. -->
+    <div class="cta-art" aria-hidden="true" data-inview>
+      <div class="cta-art__ring"></div>
+      <div class="cta-art__disc">
+        <div class="cta-art__hatch"></div>
+        <picture class="cta-art__photo">
+          <source type="image/webp" srcset="/assets/img/cta/result-480.webp 480w, /assets/img/cta/result-960.webp 960w" sizes="460px">
+          <img src="/assets/img/cta/result-480.jpg" srcset="/assets/img/cta/result-480.jpg 480w, /assets/img/cta/result-960.jpg 960w" sizes="460px" alt="" width="480" height="480" loading="lazy" decoding="async">
+        </picture>
+        <span class="cta-art__split"></span>
+      </div>
+    </div>
     <div class="wrap cta__inner reveal">
       <h2 class="h2 h2--xl" id="cta-h">Every business deserves a kingmaker.</h2>
       <div class="btn-row">

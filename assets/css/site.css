@@ -648,3 +648,21 @@ button, input, select, textarea { font: inherit; color: inherit; }
   .js .lens:not(.is-in) .lens__arc { stroke-dashoffset: 0; }
   .js .lens:not(.is-in) .lens__dot { opacity: 1; }
 }
+
+/* ---------- Behind the crown (§ 05) ---------- */
+/* An arch, not a circle, so it doesn't repeat the closing circle right after it. */
+.founder { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr)); gap: 56px; align-items: center; }
+.founder__art { position: relative; width: calc(100% - 64px); max-width: 440px; margin: 36px auto 40px; }
+.founder__arch {
+  aspect-ratio: 4 / 5; overflow: hidden; border: 1px solid var(--g-3a); background: var(--g-14);
+  border-radius: 50% 50% 0 0 / 40% 40% 0 0;
+}
+.founder__arch img { width: 100%; height: 100%; object-fit: cover; }
+.founder__ph {
+  width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+  background-image: repeating-linear-gradient(45deg, var(--g-1f) 0 1px, transparent 1px 11px);
+}
+.founder__ph span { font-family: var(--mono); font-size: 11px; color: var(--g-8a); background: var(--g-14); padding: 3px 8px; }
+.founder__art svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.founder__copy { display: flex; flex-direction: column; gap: 18px; max-width: 520px; }
+@media (max-width: 640px) { .founder { gap: 32px; } .founder__art .lbl { font-size: 15px; } }

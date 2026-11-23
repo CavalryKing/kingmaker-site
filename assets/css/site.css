@@ -114,21 +114,22 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .site-header__cta { grid-area: cta; display: flex; justify-content: flex-end; }
 .site-header__cta .sm { display: none; }
 .menu-btn {
-  grid-area: menu; display: none; justify-self: start;
-  background: var(--paper); color: var(--ink); border: 1px solid var(--g-e5); border-radius: 999px;
-  width: 44px; height: 44px; padding: 0; cursor: pointer;
-  align-items: center; justify-content: center;
+  grid-area: menu; display: none; justify-self: start; cursor: pointer;
 }
-.menu-btn:hover { border-color: var(--ink); }
-.menu-btn svg { width: 16px; height: 16px; }
 
 @media (max-width: 760px) {
   .site-header__inner { grid-template-areas: "menu logo cta"; padding: 14px 16px; gap: 10px; }
   .site-logo img { height: 24px; }
   .site-header__cta .lg { display: none; }
   .site-header__cta .sm { display: inline; }
-  .site-header__cta .btn { padding: 0 16px; min-height: 44px; }
-  .js .menu-btn { display: inline-flex; }
+  .site-header__cta .btn, .js .menu-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 68px; height: 40px; padding: 0 14px; border-radius: 999px;
+    background: var(--paper); color: var(--ink); border: 1px solid var(--g-e5);
+    font-size: 14px; font-weight: 500; line-height: 1;
+  }
+  .site-header__cta .btn:hover, .js .menu-btn:hover { border-color: var(--ink); color: var(--ink); }
+  .js .menu-btn[aria-expanded="true"] { border-color: var(--ink); }
   .js .site-nav {
     display: none; position: absolute; left: 0; right: 0; top: 100%;
     background: var(--paper); border-bottom: 1px solid var(--g-e5);
@@ -303,6 +304,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .shot span { position: relative; font-family: var(--mono); font-size: 13px; color: var(--g-8a); text-align: center; padding: 4px 10px; margin: 0 16px; background: var(--g-14); }
 .work-card__body { padding: 28px 28px 32px; display: flex; flex-direction: column; gap: 10px; }
 .work-card__body h3 { font-size: 26px; font-weight: 600; }
+.tags { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.tags li { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--g-a3); border: 1px solid var(--g-3a); border-radius: 999px; padding: 4px 10px; }
 .work-card__body .text-link { font-size: 15px; padding-top: 6px; }
 
 /* Testimonial */
@@ -311,8 +314,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
   padding: clamp(28px, 4vw, 48px); display: flex; flex-direction: column; gap: 24px;
 }
 .quote blockquote p { font-size: clamp(22px, 2.4vw, 30px); line-height: 1.35; font-weight: 500; letter-spacing: -0.015em; max-width: 900px; }
-.quote figcaption { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; color: var(--g-8a); }
-.quote figcaption strong { color: var(--paper); font-weight: 500; }
+.quote figcaption { display: flex; flex-direction: column; gap: 4px; font-size: 14px; color: var(--g-8a); }
+.quote figcaption strong { color: var(--paper); font-weight: 600; font-size: 16px; }
 .quotes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 20px; }
 .quotes .quote { margin-top: 0; }
 .quotes .quote blockquote p { font-size: 20px; }

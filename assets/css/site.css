@@ -632,3 +632,19 @@ button, input, select, textarea { font: inherit; color: inherit; }
   .tier--photo:hover .tier__img { transform: none; }
   .js .tier--photo:not(.is-in) .tier__guide { transform: none; }
 }
+
+/* ---------- Process lenses (§ 04) ---------- */
+/* Circular photo in a dashed ring; the gold arc grows a quarter per step (25 → 100%). */
+.lens { position: relative; width: 100%; max-width: 220px; aspect-ratio: 1; }
+.lens__img { position: absolute; inset: 6.67%; border-radius: 50%; overflow: hidden; background: var(--g-14); }
+.lens__img img { width: 100%; height: 100%; object-fit: cover; }
+.lens svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.lens__arc { fill: none; stroke: var(--gold); stroke-width: 1.6; stroke-dasharray: 1; stroke-dashoffset: 0; transition: stroke-dashoffset 1.6s var(--ease-draw) .1s; }
+.lens__dot { fill: var(--gold); transition: opacity .4s ease 1.5s; }
+.js .lens:not(.is-in) .lens__arc { stroke-dashoffset: 1; }
+.js .lens:not(.is-in) .lens__dot { opacity: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .lens__arc, .lens__dot { transition: none !important; }
+  .js .lens:not(.is-in) .lens__arc { stroke-dashoffset: 0; }
+  .js .lens:not(.is-in) .lens__dot { opacity: 1; }
+}

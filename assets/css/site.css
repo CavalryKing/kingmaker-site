@@ -602,3 +602,33 @@ button, input, select, textarea { font: inherit; color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   .js .mosaic > *, .js .mosaic:not(.is-in) > * { filter: none; opacity: 1; transition: none; }
 }
+
+/* ---------- Chess package cards (homepage preview and /packages) ---------- */
+.tier--photo { padding: 0; gap: 0; overflow: hidden; }
+.tier__strip {
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  min-height: 58px; padding: 14px 22px; border-bottom: 1px solid var(--g-1f);
+}
+.tier__band { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--g-14); border-bottom: 1px solid var(--g-1f); }
+.tier__img { position: absolute; inset: 0; transition: transform .4s ease; }
+.tier__img img { width: 100%; height: 100%; object-fit: cover; }
+.tier__img--ph {
+  display: flex; align-items: flex-end; justify-content: flex-start; padding: 14px;
+  background-image: repeating-linear-gradient(45deg, var(--g-1f) 0 1px, transparent 1px 11px);
+}
+.tier__img--ph span { position: relative; z-index: 1; font-family: var(--mono); font-size: 11px; letter-spacing: .04em; color: var(--g-8a); background: var(--g-14); padding: 3px 8px; }
+.tier--photo:hover .tier__img { transform: scale(1.03); }
+/* Construction guide down the centre of the band; draws downwards when the card enters */
+.tier__guide {
+  position: absolute; left: 50%; top: 12px; bottom: 12px; border-left: 1px dashed rgba(255, 255, 255, .28);
+  transform-origin: top; transition: transform 1.1s var(--ease-draw) .15s;
+}
+.js .tier--photo:not(.is-in) .tier__guide { transform: scaleY(0); }
+.tier__body { flex: 1; display: flex; flex-direction: column; gap: 22px; padding: 28px 32px 32px; }
+.tier--compact .tier__body { gap: 18px; padding: 26px 26px 30px; }
+@media (max-width: 640px) { .tier__body, .tier--compact .tier__body { padding: 24px 22px 26px; } }
+@media (prefers-reduced-motion: reduce) {
+  .tier__img, .tier__guide { transition: none !important; }
+  .tier--photo:hover .tier__img { transform: none; }
+  .js .tier--photo:not(.is-in) .tier__guide { transform: none; }
+}

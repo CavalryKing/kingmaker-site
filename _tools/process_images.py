@@ -37,6 +37,8 @@ SLOTS = [
     ("packages", "knight",      "knight.jpg",            16 / 9, .50, .50, (480, 800, 1280), True),    # already B&W; grading blows out the light
     ("packages", "king",        "king.jpg",              16 / 9, .50, .50, (480, 800, 1280), True),    # already B&W; grading blows out the light
     ("founder", "sam",          "sam.jpg",               4 / 5,  .50, .00, (440, 880), True),   # already B&W; grading blows out the wall
+    ("work",    "jnluxe-before",   "jnluxe-before.jpg",    4 / 3, .5, .5, (800, 1200, 1600), True),   # board: 3 phone windows, CSS greys it
+    ("work",    "jnluxe-after",    "jnluxe-after.jpg",     4 / 3, .5, .5, (800, 1200, 1600), True),
 ]
 
 def grade(im: Image.Image) -> Image.Image:

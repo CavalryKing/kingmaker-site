@@ -21,6 +21,7 @@ Supplied by KingMaker (all rights reserved, not for reuse):
 | File | Notes |
 |---|---|
 | `packages/pawn`, `packages/knight`, `packages/king` | Chess set on black marble. Already black and white, so they skip the grading step. |
+| `work/jnluxe-before`, `work/jnluxe-after` | Boards built from phone screenshots of the old vev.co page and the new jnluxe.com/book flow: three windows in matching positions on a dark grid. |
 | `founder/sam` | Founder portrait. Cropped 1080 wide from x=6 so the face sits centre, rows 0–1300 kept, 50px of wall added above the head. No side extension. Skips the grading step. |
 
 ## Still to supply
@@ -30,6 +31,5 @@ These slots show hatched placeholders labelled with the file they need.
 | Slot | File | Brief |
 |---|---|---|
 | LightVille case | `work/lightville-before.webp`, `work/lightville-after.webp` | Old LGSA logo/site, then the new LightVille Games site, 4:3 |
-| JN Luxe case | `work/jnluxe-before.webp`, `work/jnluxe-after.webp` | Old WhatsApp booking chat (blurred), then the new booking page, 4:3 |
 
 To add one: put the original in `_photos/`, add a line for it to `SLOTS` in `_tools/process_images.py` (set `colour=True` for "after" screenshots), run `py _tools/process_images.py`, then swap the placeholder in the HTML for a `<picture>` like the ones already on the homepage.

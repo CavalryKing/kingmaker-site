@@ -32,7 +32,7 @@ Paths are root-relative (`/assets/...`), so opening the HTML file directly
 
 ## Common edits
 
-- **Prices:** change `KM_PRICES` at the top of `assets/js/site.js`, then search the
+- **Prices** (shown on /packages only): change `KM_PRICES` at the top of `assets/js/site.js`, then search the
   HTML for `data-price="<name>"` and update the number there too (that copy is what
   Google and no-JS visitors see).
 - **Contact details:** `KM_CONFIG` at the top of `assets/js/site.js`.

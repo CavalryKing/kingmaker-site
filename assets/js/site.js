@@ -19,7 +19,7 @@ const KM_CONFIG = {
    script overwrites it on load, so THIS object is what visitors see.
    When you change a price here, also search the HTML for data-price="<key>"
    and update the number there so search results match.
-   Pages that show prices: /index.html, /packages/index.html                */
+   Pages that show prices: /packages/index.html only (the homepage deliberately shows none)                */
 const KM_PRICES = {
   squire: 1900,
   knight: 3900,

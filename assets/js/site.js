@@ -7,9 +7,9 @@
    whatsapp: international format, digits only, no + or spaces (e.g. 27821234567).
    web3formsKey: the access key Web3Forms emails you (see README).            */
 const KM_CONFIG = {
-  whatsapp: '[MY_NUMBER]',
-  email: '[MY_EMAIL]',
-  web3formsKey: '[WEB3FORMS_KEY]',
+  whatsapp: '27794210966',
+  email: 'hello@thekingmakerstudio.com',
+  web3formsKey: '596c3cac-bb00-4173-a614-9b5a9e9a93f7',
   replyHours: '[X]'
 };
 

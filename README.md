@@ -15,6 +15,7 @@ assets/css/site.css   all styles
 assets/js/site.js     config (WhatsApp, email, form key), PRICES, menu, booking form
 assets/brand/         logo, icon, favicon and OG image (final, do not edit)
 _design/              brief and approved draft (not published)
+_tools/               optional helper scripts (not published)
 ```
 
 ## Preview locally
@@ -35,8 +36,9 @@ Paths are root-relative (`/assets/...`), so opening the HTML file directly
   HTML for `data-price="<name>"` and update the number there too (that copy is what
   Google and no-JS visitors see).
 - **Contact details:** `KM_CONFIG` at the top of `assets/js/site.js`.
-- **Header / footer:** copied into every page. Change all copies
-  (search for `keep in sync`).
+- **Header / footer:** copied into every page. Edit them in `index.html`, then run
+  `python _tools/sync_partials.py` to copy them to the other pages
+  (`--check` just reports pages that are out of sync).
 - **Logos:** every occurrence is marked `<!-- KM-LOGO -->`.
 
 ## Deploy

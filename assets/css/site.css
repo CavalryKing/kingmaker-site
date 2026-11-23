@@ -739,3 +739,52 @@ button, input, select, textarea { font: inherit; color: inherit; }
 /* The range input covers the frame: drag anywhere, or focus it and use the arrow keys */
 .ba__range { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; touch-action: pan-y; }
 .ba__range:focus-visible ~ .ba__handle { outline: 2px solid var(--paper); outline-offset: 3px; }
+
+/* ---------- Work card screenshots (colour, on purpose) ---------- */
+.shot--img { aspect-ratio: 16 / 9; display: block; background: #0D0D0D; }
+.shot--img picture, .shot--img img { width: 100%; height: 100%; }
+.shot--img img { object-fit: cover; transition: transform .5s ease; }
+.work-card:hover .shot--img img { transform: scale(1.02); }
+@media (prefers-reduced-motion: reduce) { .work-card:hover .shot--img img { transform: none; } }
+
+/* Closing circle: always-on loop (separate from the scroll-linked split) */
+.cta-art__ring { animation: km-spin 70s linear infinite; }
+.cta-art__node { position: absolute; top: -4px; left: 50%; width: 7px; height: 7px; margin-left: -3.5px; border-radius: 50%; background: var(--paper); opacity: .8; }
+.cta-art__ring2 { position: absolute; inset: -18px; border-radius: 50%; border: 1px dashed var(--g-4a); border-left-color: transparent; border-right-color: transparent; animation: km-spin-rev 46s linear infinite; }
+.cta-art__hatch { animation: km-hatch-drift 2.8s linear infinite; }
+@keyframes km-hatch-drift { to { background-position: 14.14px 0; } }
+.cta-art__photo img { animation: km-breathe-img 14s ease-in-out infinite alternate; transform-origin: 60% 40%; }
+@keyframes km-breathe-img { from { transform: scale(1); } to { transform: scale(1.08); } }
+.cta-art__split { overflow: hidden; }
+.cta-art__split::after {
+  content: ""; position: absolute; left: -1px; right: -1px; top: 0; height: 90px;
+  background: linear-gradient(180deg, transparent, #F3D98F 50%, transparent);
+  animation: km-spark 4.5s cubic-bezier(.5, 0, .5, 1) infinite; transform: translateY(-100px);
+}
+@keyframes km-spark { 0% { transform: translateY(-100px); } 70%, 100% { transform: translateY(560px); } }
+@media (max-width: 760px) { .cta-art__ring2 { inset: -12px; } }
+@media (prefers-reduced-motion: reduce) {
+  .cta-art__ring, .cta-art__ring2, .cta-art__hatch, .cta-art__photo img, .cta-art__split::after { animation: none !important; }
+  .cta-art__split::after { display: none; }
+}
+
+/* ---------- Page-hero geometry (/packages, /work): draw once, then a slow loop ---------- */
+.ph-draw {
+  fill: none; stroke: var(--g-5a); stroke-width: 1; stroke-dasharray: 1; stroke-dashoffset: 1;
+  transform-box: view-box; transform-origin: 1090px 250px; transform: rotate(-90deg);
+  animation: km-draw 3.6s cubic-bezier(.4, 0, .3, 1) .3s forwards, km-fade-out 1.4s ease 4.2s forwards;
+}
+@keyframes km-fade-out { to { opacity: 0; } }
+.ph-ring { transform-box: view-box; transform-origin: 1090px 250px; animation: km-spin 90s linear infinite; }
+.ph-ring2 {
+  fill: none; stroke: var(--g-3a); stroke-width: 1; stroke-dasharray: 120 40 20 40;
+  transform-box: view-box; transform-origin: 1090px 250px; animation: km-spin-rev 55s linear infinite;
+}
+.ph-orbit { transform-box: view-box; transform-origin: 1090px 250px; animation: km-spin 34s linear infinite; }
+.ph-node { fill: var(--paper); opacity: .7; }
+.ph-sway { transform-box: view-box; transform-origin: 1090px 250px; animation: km-sway 18s ease-in-out infinite alternate; }
+.ph-hatch { fill: url(#km-hatch-ph); stroke: var(--g-5a); stroke-width: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .ph-draw { animation: none !important; opacity: 0; }
+  .ph-ring, .ph-ring2, .ph-orbit, .ph-sway { animation: none !important; }
+}

@@ -21,7 +21,7 @@ Supplied by KingMaker (all rights reserved, not for reuse):
 | File | Notes |
 |---|---|
 | `packages/pawn`, `packages/knight`, `packages/king` | Chess set on black marble. Already black and white, so they skip the grading step. |
-| `founder/sam` | Founder portrait. Wall extended above the head and to the right so the 4:5 crop fits the head, the hand on the desk and the watch. Built with _tools-style script: top 150px, right 162px, source cropped at row 1410. Skips the grading step. |
+| `founder/sam` | Founder portrait. Cropped 1080 wide from x=6 so the face sits centre, rows 0–1300 kept, 50px of wall added above the head. No side extension. Skips the grading step. |
 
 ## Still to supply
 

@@ -14,7 +14,7 @@ book/index.html       /book/
 assets/css/site.css   all styles
 assets/js/site.js     config (WhatsApp, email, form key), PRICES, menu, booking form
 assets/brand/         logo, icon, favicon and OG image (final, do not edit)
-_design/              brief and approved draft (not published)
+_design/              brief and approved draft (local only, git-ignored)
 _tools/               optional helper scripts (not published)
 ```
 

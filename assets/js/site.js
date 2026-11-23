@@ -89,6 +89,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  /* Reduced motion: also pause SVG (SMIL) animations, which CSS can't stop */
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('svg').forEach((s) => s.pauseAnimations && s.pauseAnimations());
+  }
+
   /* Page-specific modules */
   if (document.getElementById('booking')) kmBooking();
 });

@@ -331,10 +331,17 @@
   <!-- CTA -->
   <section class="cta" aria-labelledby="cta-h">
     <svg viewBox="0 0 1280 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <!-- Own hatch pattern so its lines can drift without moving the hero's hatch -->
+        <pattern id="km-hatch-cta" width="10" height="10" patternUnits="userSpaceOnUse">
+          <path d="M-1 1 L1 -1 M0 10 L10 0 M9 11 L11 9" style="stroke:#3D3D3D;stroke-width:1.2"/>
+          <animateTransform attributeName="patternTransform" type="translate" from="0 0" to="10 0" dur="3s" repeatCount="indefinite"/>
+        </pattern>
+      </defs>
       <circle class="dash cta-march" cx="1080" cy="420" r="300"/>
-      <circle class="faint" cx="1080" cy="420" r="200"/>
+      <circle class="cta-ring" cx="1080" cy="420" r="200"/>
       <g class="cta-orbit"><circle class="cta-node" cx="1080" cy="220" r="3.5"/></g>
-      <circle class="hatch cta-breathe" cx="1180" cy="330" r="90"/>
+      <g class="cta-sway"><circle class="cta-hatch cta-breathe" cx="1180" cy="330" r="90"/></g>
     </svg>
     <div class="wrap cta__inner reveal">
       <h2 class="h2 h2--xl" id="cta-h">Not sure which one fits?</h2>
@@ -355,14 +362,15 @@
       <img src="/assets/brand/svg/kingmaker-logo-white.svg" alt="KingMaker" width="161" height="24">
       <span>— a venture studio</span>
     </div>
-    <nav aria-label="Footer">
-      <a href="/packages/">Packages</a>
-      <a href="/work/">Work</a>
-      <a href="/book/">Book</a>
-      <a href="#" data-todo="instagram-url">[Instagram]</a>
-      <a href="#" data-todo="linkedin-url">[LinkedIn]</a>
+    <nav class="footer-icons" aria-label="Footer">
+      <a href="/packages/" aria-label="Packages" title="Packages"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 7.5 12 3l8.5 4.5v9L12 21l-8.5-4.5z M3.5 7.5 12 12l8.5-4.5 M12 12v9"/></svg></a>
+      <a href="/work/" aria-label="Work" title="Work"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="7.5" width="17" height="12" rx="2"/><path d="M9 7.5v-2A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5v2 M3.5 12.5h17"/></svg></a>
+      <a href="/book/" aria-label="Book a call" title="Book a call"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17 M8 3v4 M16 3v4"/></svg></a>
+      <span class="footer-icons__sep" aria-hidden="true"></span>
+      <a href="#" data-todo="instagram-url" aria-label="Instagram" title="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></a>
+      <a href="#" data-todo="linkedin-url" aria-label="LinkedIn" title="LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="3"/><circle cx="8.2" cy="7.9" r="1.1" fill="currentColor" stroke="none"/><path d="M8.2 10.5v6 M11.8 16.5v-6 M11.8 13.4a2.5 2.5 0 0 1 5 0v3.1"/></svg></a>
     </nav>
-    <span>Made in Cape Town. © 2026 KingMaker</span>
+    <span>© 2020–2027 KingMaker Studio</span>
   </div>
 </footer>
 <!-- ===== /FOOTER ===== -->

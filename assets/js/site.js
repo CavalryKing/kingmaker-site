@@ -111,6 +111,17 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('svg').forEach((s) => s.pauseAnimations && s.pauseAnimations());
   }
 
+  /* Before/after sliders (/work): the range input drives the split */
+  document.querySelectorAll('[data-ba]').forEach((ba) => {
+    const r = ba.querySelector('.ba__range');
+    const set = () => {
+      ba.style.setProperty('--pos', r.value + '%');
+      r.setAttribute('aria-valuetext', r.value + '% before, ' + (100 - r.value) + '% after');
+    };
+    r.addEventListener('input', set);
+    set();
+  });
+
   /* Page-specific modules */
   if (document.getElementById('booking')) kmBooking();
 });

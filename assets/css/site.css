@@ -205,9 +205,10 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 
 /* ---------- Hero animations ---------- */
-.draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: km-draw 2.8s var(--ease-draw) .3s forwards; }
-.fade { opacity: 0; animation: km-fade 1.4s ease forwards; }
-.fade2 { opacity: 0; animation: km-fade 1.4s ease 1.6s forwards; }
+/* Outline draws over ~5s with a gentle, even pace; the gold dot and labels land as it closes. */
+.draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: km-draw 5.2s cubic-bezier(.4, 0, .3, 1) .6s forwards; }
+.fade { opacity: 0; animation: km-fade 1.6s ease forwards; }
+.fade2 { opacity: 0; animation: km-fade 1.4s ease 5.2s forwards; }
 @keyframes km-draw { to { stroke-dashoffset: 0; } }
 @keyframes km-fade { to { opacity: 1; } }
 @keyframes km-rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }

@@ -19,7 +19,9 @@ const file = args.find(a => !a.startsWith('--')) || join(root, 'seed', 'seed.pri
 const data = JSON.parse(readFileSync(file, 'utf8'));
 if (data.format !== 'kingmaker-admin-export') throw new Error(`${file} is not an export-format file`);
 
-const wrangler = (...a) => execFileSync('npx', ['wrangler', ...a], { cwd: root, encoding: 'utf8', shell: process.platform === 'win32' });
+// Run wrangler's own JS with this Node (no shell, so SQL arguments are passed exactly as given on every OS).
+const wranglerBin = join(root, 'node_modules', 'wrangler', 'bin', 'wrangler.js');
+const wrangler = (...a) => execFileSync(process.execPath, [wranglerBin, ...a], { cwd: root, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
 
 if (!force) {
   const out = wrangler('d1', 'execute', 'kingmaker-admin', where, '--json', '--command', 'SELECT COUNT(*) AS n FROM clients');

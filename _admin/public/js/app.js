@@ -86,9 +86,12 @@ async function route() {
     const on = a.dataset.nav === navId || (navId !== 'more' && a.dataset.nav === 'more' && ['settings', 'enquiries', 'apparel', 'finance'].includes(navId));
     if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
   });
-  const view = $('#view');
+  // A fresh element per route, so listeners from the previous view never linger.
+  const old = $('#view');
+  const view = document.createElement('div');
   view.className = 'view';
-  view.innerHTML = '';
+  view.id = 'view';
+  old.replaceWith(view);
   window.scrollTo(0, 0);
   try {
     cleanup = (await mod.render(view, m.slice(1), query)) || null;

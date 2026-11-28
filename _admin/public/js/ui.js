@@ -133,3 +133,12 @@ export function download(name, text, type = 'application/json') {
 
 // Construction-line decoration used on several screens.
 export const decoRing = (cls = 'deco', stroke = '#3A3A3A') => raw(`<svg class="${cls}" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="150" r="140" fill="none" stroke="${stroke}" stroke-dasharray="4 6"/><circle cx="150" cy="150" r="90" fill="none" stroke="${stroke}" opacity=".6"/><line x1="0" y1="150" x2="300" y2="150" stroke="${stroke}" opacity=".5"/><line x1="150" y1="0" x2="150" y2="300" stroke="${stroke}" opacity=".5"/><circle cx="150" cy="10" r="5" fill="#C9A24A"/></svg>`);
+
+/** Grow textareas to fit their text (and keep growing while typing). */
+export function autosize(root) {
+  root.querySelectorAll('textarea').forEach(ta => {
+    const fit = () => { ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 2 + 'px'; };
+    fit();
+    ta.addEventListener('input', fit);
+  });
+}

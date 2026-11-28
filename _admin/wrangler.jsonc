@@ -57,7 +57,9 @@
 		"SITE_BRANCH": "main",
 		// Cloudflare Access. When both are set, every /api call must carry a valid Access token
 		// on top of the password cookie. Team domain looks like "yourteam.cloudflareaccess.com".
-		"ACCESS_TEAM_DOMAIN": "ancient-sea-5040.cloudflareaccess.com",
-		"ACCESS_AUD": "e61875fa7294c36a8bffdf221196b5b27d5fc113c483e7e9657b6fb33d5359bb"
+		// Off for now (password only). To turn Access back on, re-create the Access app and set:
+		//   ACCESS_TEAM_DOMAIN "ancient-sea-5040.cloudflareaccess.com" and ACCESS_AUD to the app's AUD tag.
+		"ACCESS_TEAM_DOMAIN": "",
+		"ACCESS_AUD": ""
 	}
 }

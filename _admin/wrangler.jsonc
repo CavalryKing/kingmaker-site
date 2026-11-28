@@ -1,50 +1,63 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  // KingMaker Admin: admin.thekingmakerstudio.com
-  // Deployed by Cloudflare Workers Builds on every push to main (root directory: _admin).
-  // The account comes from the Workers Builds connection, so account_id is not set here.
-  "name": "kingmaker-admin",
-  "main": "src/worker/index.ts",
-  "compatibility_date": "2026-10-01",
-  "observability": { "enabled": true },
-
-  // The app shell (HTML/CSS/JS) is static. Only /api/* runs the Worker first.
-  "assets": {
-    "directory": "./public",
-    "binding": "ASSETS",
-    "html_handling": "auto-trailing-slash",
-    "not_found_handling": "none",
-    "run_worker_first": ["/api/*"]
-  },
-
-  // The only way in is the custom domain, which Cloudflare Access protects.
-  // workers.dev and preview URLs are off so nothing bypasses Access.
-  "routes": [{ "pattern": "admin.thekingmakerstudio.com", "custom_domain": true }],
-  "workers_dev": false,
-  "preview_urls": false,
-
-  // All admin data. Schema: migrations/. Create it once with:
-  //   npx wrangler d1 create kingmaker-admin   (then paste the id below)
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "kingmaker-admin",
-      "database_id": "00000000-0000-0000-0000-000000000000",
-      "migrations_dir": "migrations"
-    }
-  ],
-
-  // Password login: max 5 attempts per IP per minute (same as jnluxe).
-  "ratelimits": [{ "name": "LOGIN_LIMITER", "namespace_id": "2001", "simple": { "limit": 5, "period": 60 } }],
-
-  // Secrets (npx wrangler secret put NAME): ADMIN_PASSWORD (12+ chars), GITHUB_TOKEN (Publish prices).
-  "vars": {
-    // Publish prices commits to this repo and branch (the public site).
-    "SITE_REPO": "CavalryKing/kingmaker-site",
-    "SITE_BRANCH": "main",
-    // Cloudflare Access. When both are set, every /api call must carry a valid Access token
-    // on top of the password cookie. Team domain looks like "yourteam.cloudflareaccess.com".
-    "ACCESS_TEAM_DOMAIN": "",
-    "ACCESS_AUD": ""
-  }
+	"$schema": "node_modules/wrangler/config-schema.json",
+	// KingMaker Admin: admin.thekingmakerstudio.com
+	// Deployed by Cloudflare Workers Builds on every push to main (root directory: _admin).
+	// The account comes from the Workers Builds connection, so account_id is not set here.
+	"name": "kingmaker-admin",
+	"main": "src/worker/index.ts",
+	"compatibility_date": "2026-10-01",
+	"observability": {
+		"enabled": true
+	},
+	// The app shell (HTML/CSS/JS) is static. Only /api/* runs the Worker first.
+	"assets": {
+		"directory": "./public",
+		"binding": "ASSETS",
+		"html_handling": "auto-trailing-slash",
+		"not_found_handling": "none",
+		"run_worker_first": [
+			"/api/*"
+		]
+	},
+	// The only way in is the custom domain, which Cloudflare Access protects.
+	// workers.dev and preview URLs are off so nothing bypasses Access.
+	"routes": [
+		{
+			"pattern": "admin.thekingmakerstudio.com",
+			"custom_domain": true
+		}
+	],
+	"workers_dev": false,
+	"preview_urls": false,
+	// All admin data. Schema: migrations/. Create it once with:
+	//   npx wrangler d1 create kingmaker-admin   (then paste the id below)
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "kingmaker-admin",
+			"database_id": "eb5ae9b3-b248-453a-830e-99989c0402fa",
+			"migrations_dir": "migrations"
+		}
+	],
+	// Password login: max 5 attempts per IP per minute (same as jnluxe).
+	"ratelimits": [
+		{
+			"name": "LOGIN_LIMITER",
+			"namespace_id": "2001",
+			"simple": {
+				"limit": 5,
+				"period": 60
+			}
+		}
+	],
+	// Secrets (npx wrangler secret put NAME): ADMIN_PASSWORD (12+ chars), GITHUB_TOKEN (Publish prices).
+	"vars": {
+		// Publish prices commits to this repo and branch (the public site).
+		"SITE_REPO": "CavalryKing/kingmaker-site",
+		"SITE_BRANCH": "main",
+		// Cloudflare Access. When both are set, every /api call must carry a valid Access token
+		// on top of the password cookie. Team domain looks like "yourteam.cloudflareaccess.com".
+		"ACCESS_TEAM_DOMAIN": "ancient-sea-5040.cloudflareaccess.com",
+		"ACCESS_AUD": "e61875fa7294c36a8bffdf221196b5b27d5fc113c483e7e9657b6fb33d5359bb"
+	}
 }

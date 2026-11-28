@@ -276,3 +276,38 @@ export function sigBlock(label, nameHtml) {
 }
 
 export const clientLine = (c) => [c?.data?.website, c?.data?.location].filter(Boolean).join(' · ');
+
+// ---------- Tick boxes and question blocks ----------
+/** A grid of tick boxes bound to data[path] (an object of key -> true/false). items: [[key, label], ...] */
+export function ticks(path, items, cols = 2) {
+  return html`<div class="cks" data-ticks="${path}" style="${cols === 1 ? 'grid-template-columns:1fr' : ''}">${items.map(([k, l]) => html`<div class="ck" role="checkbox" tabindex="0" data-tick="${k}"><span class="box"></span><span>${l}</span></div>`)}</div>`;
+}
+export function wireTicks(root, data, onChange) {
+  root.querySelectorAll('[data-ticks]').forEach(group => {
+    const path = group.dataset.ticks;
+    const obj = () => { let o = getPath(data, path); if (!o || typeof o !== 'object') { o = {}; setPath(data, path, o); } return o; };
+    const draw = () => group.querySelectorAll('[data-tick]').forEach(t => { const on = !!obj()[t.dataset.tick]; t.classList.toggle('on', on); t.setAttribute('aria-checked', on); });
+    const toggle = (t) => { const o = obj(); o[t.dataset.tick] = !o[t.dataset.tick]; draw(); onChange(path); };
+    group.querySelectorAll('[data-tick]').forEach(t => {
+      t.addEventListener('click', () => toggle(t));
+      t.addEventListener('keydown', (e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggle(t); } });
+    });
+    draw();
+  });
+}
+
+/** Question with a ruled answer space (prints as blank lines when empty). */
+export function QA(path, label, tall = false, ph = '') {
+  return html`<div class="qa"><span class="lab mono muted">${label}</span>${F(path, ph, `ans${tall ? ' tall' : ''}`)}</div>`;
+}
+
+/** A package's deliverables with "Everything in <Package>" expanded into that package's own list. */
+export function fullDeliverables(p, cat, seen = new Set()) {
+  if (!p || seen.has(p.id)) return [];
+  seen.add(p.id);
+  return (p.deliverables || []).flatMap(x => {
+    const m = String(x).match(/^Everything in (.+)$/i);
+    const inner = m && cat.packages.find(q => q.name.toLowerCase() === m[1].trim().toLowerCase());
+    return inner ? fullDeliverables(inner, cat, seen) : [x];
+  });
+}

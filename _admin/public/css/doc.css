@@ -253,7 +253,7 @@
   .page .foot { position: fixed; left: 0; right: 0; bottom: 0; }
   .page .field:empty::before { content: ""; }
   .page .field:focus { background: none; }
-  .page .inline { border: 0; }
+  .page .inline { border: 0; min-width: 0; }
   .page .pickable, .page .datef { border: 0 !important; }
   .page .opt:not(.sel) { color: #C4C4C4; }
   .page .terms { display: grid !important; }

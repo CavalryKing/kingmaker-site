@@ -20,7 +20,8 @@ export async function newDocument(type, clientId = null, extra = {}) {
   try {
     const mod = await loadType(type);
     const ctx = makeCtx(clientId);
-    const data = await mod.blank(ctx, extra);
+    let data = await mod.blank(ctx, extra);
+    if (mod.prepare) data = await mod.prepare(data, ctx);
     const fields = { type, client_id: clientId, status: 'draft', issued_on: today(), data, ...(mod.totals ? mod.totals(data) : {}) };
     const doc = await createDoc(fields);
     location.hash = `#/doc/${doc.id}`;

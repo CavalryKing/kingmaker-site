@@ -26,6 +26,10 @@ export const decoTall = () => raw('<svg class="deco" viewBox="0 0 300 300" aria-
 export function F(path, ph = '', cls = '', tag = 'div', style = '') {
   return raw(`<${tag} class="field ${cls}" contenteditable="plaintext-only" spellcheck="true" data-k="${esc(path)}" data-ph="${esc(ph)}"${style ? ` style="${esc(style)}"` : ''}></${tag}>`);
 }
+/** Editable money amount (R1,234.00), stored as a number. */
+export function M(path, cls = '') {
+  return raw(`<span class="field inline ${cls}" contenteditable="plaintext-only" inputmode="decimal" data-money data-k="${esc(path)}" data-ph="R0.00"></span>`);
+}
 /** A date shown long-form; click opens the date picker. */
 export function D(path, ph = 'Pick a date', cls = '') {
   return raw(`<span class="field datef ${cls}" tabindex="0" role="button" data-date="${esc(path)}" data-ph="${esc(ph)}"></span>`);
@@ -49,9 +53,11 @@ export function bindFields(root, data, onChange) {
   root.querySelectorAll('[data-k]').forEach(el => {
     const k = el.dataset.k;
     const v = getPath(data, k);
-    el.textContent = v == null ? '' : String(v);
+    const isMoney = 'money' in el.dataset;   // shown as R1,234.00, stored as a number
+    el.textContent = isMoney ? money(num(v)) : (v == null ? '' : String(v));
+    if (isMoney) el.addEventListener('blur', () => { el.textContent = money(num(getPath(data, k))); });
     el.addEventListener('input', () => {
-      setPath(data, k, textOf(el));
+      setPath(data, k, isMoney ? num(textOf(el)) : textOf(el));
       if (!el.textContent) el.innerHTML = ''; // so :empty placeholders come back
       // Keep other elements bound to the same path in step (e.g. the business name in two places).
       root.querySelectorAll(`[data-k="${CSS.escape(k)}"]`).forEach(o => { if (o !== el) o.textContent = getPath(data, k) ?? ''; });

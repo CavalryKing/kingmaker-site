@@ -110,7 +110,7 @@ function showLogin(msg = '') {
       <svg class="login__deco" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="150" r="140" fill="none" stroke="#2E2E2E" stroke-dasharray="4 6"/><circle cx="150" cy="150" r="90" fill="none" stroke="#1F1F1F"/><line x1="0" y1="150" x2="300" y2="150" stroke="#1A1A1A"/><line x1="150" y1="0" x2="150" y2="300" stroke="#1A1A1A"/><circle cx="150" cy="10" r="4" fill="#C9A24A"/></svg>
       <form class="login__box" id="loginForm">
         <img src="/assets/brand/kingmaker-logo-white.svg" alt="KingMaker">
-        <span class="mono" style="color:#8A8A8A">§ 00 · ADMIN</span>
+        <span class="mono" style="color:#8A8A8A">§ 00 — ADMIN</span>
         <h1>Welcome back.</h1>
         <p>Enter your admin password.</p>
         <label class="sr" for="pw">Password</label>

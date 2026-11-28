@@ -12,18 +12,18 @@ export async function render(view) {
   let cat = clone(catalogue());
   let dirty = false;
 
-  const siteTag = (k) => (k ? html`<span class="chip chip--plain" title="Shown on the public site as data-price=&quot;${k}&quot;">SITE · ${k}</span>` : html`<span class="chip chip--plain">ADMIN ONLY</span>`);
+  const siteTag = (k) => (k ? html`<span class="chip chip--plain" title="Shown on the public site as data-price=&quot;${k}&quot;">SITE: ${k}</span>` : html`<span class="chip chip--plain">ADMIN ONLY</span>`);
 
   function draw() {
     view.innerHTML = html`
       <div class="ph">
-        <div><span class="ph__sec mono">§ 04 · CATALOGUE</span><h1>Catalogue</h1></div>
+        <div><span class="ph__sec mono">§ 04 — CATALOGUE</span><h1>Catalogue</h1></div>
         <div class="ph__actions"><span class="mono muted" id="dirty" style="align-self:center" ${dirty ? '' : 'hidden'}>UNSAVED CHANGES</span><button class="btn" id="saveCat" type="button">Save catalogue</button></div>
       </div>
 
       <section class="card" id="publish"><div class="card__h"><h2>Prices on the public site</h2></div><p class="muted" style="margin:0">Checking the live site…</p></section>
 
-      <div class="div"><span class="mono">§ 01 · PACKAGES</span><i></i><b></b></div>
+      <div class="div"><span class="mono">§ 01 — PACKAGES</span><i></i><b></b></div>
       ${cat.packages.map((p, i) => html`
         <div class="cat-item" data-pkg="${i}">
           <div class="cat-row">
@@ -41,7 +41,7 @@ export async function render(view) {
           </div>
         </div>`)}
 
-      <div class="div"><span class="mono">§ 02 · ADD-ONS</span><i></i><b></b></div>
+      <div class="div"><span class="mono">§ 02 — ADD-ONS</span><i></i><b></b></div>
       ${cat.addons.map((a, i) => html`
         <div class="cat-item" data-addon="${i}">
           <div class="cat-row">
@@ -55,7 +55,7 @@ export async function render(view) {
       <button type="button" class="btn btn--ghost btn--sm" id="addAddon" style="margin-top:10px">+ Add-on</button>
       <p class="hint">New add-ons are admin-only (for quotes and invoices). Only the four add-ons with a SITE tag appear on the public site.</p>
 
-      <div class="div"><span class="mono">§ 03 · RETAINER</span><i></i><b></b></div>
+      <div class="div"><span class="mono">§ 03 — RETAINER</span><i></i><b></b></div>
       <div class="cat-item" id="retainer">
         <div class="cat-row">
           <label class="fl"><span>Name</span><input class="in" data-f="name" value="${cat.retainer.name}"></label>
@@ -65,7 +65,7 @@ export async function render(view) {
         <label class="fl list-edit"><span>What's included (one per line)</span><textarea class="in" data-f="includes">${(cat.retainer.includes || []).join('\n')}</textarea></label>
       </div>
 
-      <div class="div"><span class="mono">§ 04 · NAMED DISCOUNTS</span><i></i><b></b></div>
+      <div class="div"><span class="mono">§ 04 — NAMED DISCOUNTS</span><i></i><b></b></div>
       ${cat.discounts.map((d, i) => html`
         <div class="cat-item" data-disc="${i}">
           <div class="cat-row cat-row--disc">

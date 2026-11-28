@@ -59,7 +59,7 @@ const input = (group, key, label, value, attrs = '') =>
 export async function render(view) {
   const c = S.settings.company || {}, b = S.settings.bank || {}, t = S.settings.terms || {};
   view.innerHTML = html`
-    <div class="ph"><div><span class="ph__sec mono">§ 05 · SETTINGS</span><h1>Settings</h1></div>
+    <div class="ph"><div><span class="ph__sec mono">§ 05 — SETTINGS</span><h1>Settings</h1></div>
       <div class="ph__actions"><button class="btn" type="button" id="saveAll">Save settings</button></div></div>
 
     <section class="card">

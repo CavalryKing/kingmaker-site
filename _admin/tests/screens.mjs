@@ -38,7 +38,7 @@ for (const [w, h] of [[390, 844], [1440, 900]]) {
   }
   if (process.env.PDF && w === 1440) {
     const docs = await page.evaluate(() => fetch('/api/state').then(r => r.json()).then(s => s.documents.map(d => [d.id, d.number])));
-    for (const [id, number] of docs) {
+    for (const [id, number] of docs.filter(([, n]) => !process.env.ONLY || n === process.env.ONLY)) {
       await page.goto(`${BASE}/#/doc/${id}`);
       await page.waitForSelector('.page');
       await page.waitForTimeout(500);

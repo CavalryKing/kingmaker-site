@@ -1,1 +1,262 @@
-/* Document pages (A4): filled in with the Invoice module. */
+/* ==========================================================================
+   Sales-kit documents: the white A4 page, exactly as it prints.
+   Taken from reference/KingMaker_Invoice.html and KingMaker_Online_Presence_Audit.html.
+   Everything is scoped to .page so it never clashes with the admin's own styles.
+   ========================================================================== */
+
+/* ---------- Editor frame (screen only) ---------- */
+.docwrap { background: var(--g-ed); margin: -24px -28px -48px; padding: 0 0 48px; min-height: calc(100vh - var(--top)); }
+.doctools { position: sticky; top: var(--top); z-index: 15; background: var(--ink); color: #fff; padding: 10px 16px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.doctools__id { display: flex; flex-direction: column; min-width: 0; margin-right: auto; }
+.doctools__id a { color: var(--g-8a); text-decoration: none; font: 10.5px var(--mono); letter-spacing: .06em; }
+.doctools__id a:hover { color: #fff; }
+.doctools__id b { font-weight: 600; font-size: 14.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.doctools select { background: var(--g-14); color: #fff; border: 1px solid var(--g-3a); border-radius: 999px; padding: 7px 28px 7px 12px; font-size: 13px; min-height: 34px; max-width: 200px; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6' fill='%23A3A3A3'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; }
+.doctools .btn { min-height: 34px; padding: 6px 14px; font-size: 13px; }
+.doctools .state { font: 10.5px var(--mono); letter-spacing: .06em; color: var(--g-8a); min-width: 64px; text-align: right; }
+.doctools .state.is-err { color: #F2B8B5; }
+.docnote { max-width: 210mm; margin: 14px auto 0; }
+.docmenu { position: relative; }
+.docmenu__list { position: absolute; right: 0; top: calc(100% + 6px); background: var(--paper); color: var(--ink); border: 1px solid var(--g-e5); border-radius: 10px; padding: 6px; min-width: 200px; box-shadow: 0 10px 30px rgba(0,0,0,.18); z-index: 20; }
+.docmenu__list button { display: block; width: 100%; text-align: left; border: 0; background: none; padding: 8px 10px; border-radius: 6px; cursor: pointer; font-size: 13.5px; }
+.docmenu__list button:hover { background: var(--g-f4); }
+.docmenu__list .danger { color: var(--red); }
+@media (max-width: 860px) {
+  .docwrap { margin: -16px -16px -32px; }
+  .doctools { padding: 8px 12px; gap: 6px; }
+  .doctools__id { flex-basis: 100%; margin-right: 0; }
+  .doctools select { max-width: 150px; }
+  .doctools .btn--hide-sm { display: none; }
+  .docnote { margin: 10px 12px 0; }
+}
+
+/* ---------- The page ---------- */
+.page { --line: #E3E3E3; --mut: #6B6B6B; width: 210mm; min-height: 297mm; margin: 24px auto; background: #fff; color: var(--ink);
+  box-shadow: 0 2px 24px rgba(0,0,0,.12); display: flex; flex-direction: column; font-family: 'Geist', system-ui, sans-serif; font-size: 14px; line-height: normal;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.page .mono { font-family: 'Geist Mono', monospace; letter-spacing: .06em; font-size: 11px; }
+.page .muted { color: var(--mut); }
+.page .pre { white-space: pre-line; }
+.page p { margin: 0; }
+
+/* Print table: tfoot reserves room for the fixed footer on every printed page. On screen it's plain blocks. */
+.page .pt, .page .pt > tbody, .page .pt > tbody > tr, .page .pt > tbody > tr > td { display: block; }
+.page .pt { flex: 1; display: flex; flex-direction: column; width: 100%; border-collapse: collapse; }
+.page .pt > tbody, .page .pt > tbody > tr, .page .pt > tbody > tr > td { flex: 1; display: flex; flex-direction: column; padding: 0; }
+.page .pt > thead, .page .pt > tfoot { display: none; }
+.page .foot-space { height: 17mm; }   /* footer band (~14mm) + breathing room */
+.page .head-space { height: 10mm; }   /* top margin on continuation pages */
+
+/* Editable fields */
+.page .field { outline: none; }
+.page .field:empty::before { content: attr(data-ph); color: #A8A8A8; font-weight: 400; }
+.page .field:focus { background: #FAF7EE; }
+.page .datef { cursor: pointer; border-bottom: 1px dashed transparent; }
+.page .datef:hover { border-bottom-color: #CFCFCF; }
+.page .inline { display: inline-block; min-width: 20px; border-bottom: 1px dashed #CFCFCF; }
+.page .pickable { cursor: pointer; border-bottom: 1px dashed currentColor; }
+
+/* Header band */
+.page .band { background: var(--ink); color: #fff; position: relative; overflow: hidden; padding: 11mm 16mm 9mm; display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; }
+.page .band .deco { position: absolute; right: -70px; top: -80px; width: 280px; height: 280px; pointer-events: none; }
+.page .band .logo { height: 22px; width: auto; display: block; }
+.page .band h1 { margin: 12px 0 0; font-size: 36px; letter-spacing: -.02em; font-weight: 600; line-height: 1; }
+.page .band .right { position: relative; text-align: right; display: flex; flex-direction: column; gap: 6px; }
+.page .kv { display: grid; grid-template-columns: auto auto; gap: 4px 14px; justify-content: end; font-size: 13px; }
+.page .kv .k { color: #9A9A9A; font: 11px 'Geist Mono', monospace; letter-spacing: .06em; align-self: center; }
+/* Tall band (audit and other long documents) */
+.page .band--tall { display: block; padding: 14mm 16mm 12mm; }
+.page .band--tall .deco { right: -60px; top: -60px; width: 300px; height: 300px; }
+.page .band--tall h1 { margin: 18px 0 6px; font-size: 34px; line-height: 1.05; }
+.page .band--tall .sub { color: #B5B5B5; font-size: 14px; margin: 0; position: relative; }
+.page .band--tall .kicker { color: #9A9A9A; margin-top: 16px; position: relative; }
+
+/* Parties / meta */
+.page .parties { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; padding: 7mm 16mm 6mm; border-bottom: 1px solid var(--line); }
+.page .parties .lab { display: block; margin-bottom: 6px; }
+.page .parties .name { font-weight: 600; font-size: 15px; }
+.page .parties .ln { font-size: 13px; line-height: 1.55; color: #333; }
+.page .meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 24px; padding: 9mm 16mm 6mm; border-bottom: 1px solid var(--line); }
+.page .meta .lab { display: block; margin-bottom: 3px; }
+.page .meta .field, .page .meta .val { min-height: 22px; font-size: 14px; font-weight: 500; border-bottom: 1px dashed #BDBDBD; padding: 2px 0; }
+.page .cross { position: absolute; font: 13px 'Geist Mono', monospace; color: #C4C4C4; line-height: 1; }
+.page .cross.tl { left: 10mm; top: 4mm; }
+.page .cross.br { right: 10mm; bottom: 3mm; }
+
+/* Body */
+.page .body { padding: 5mm 16mm 10mm; flex: 1; }
+.page .div { display: flex; align-items: center; gap: 10px; margin: 0 0 3mm; }
+.page .div i { flex: 1; border-top: 1px dashed #D0D0D0; }
+.page .div b { width: 8px; height: 8px; border: 1px solid #B5B5B5; border-radius: 50%; }
+.page .div .mono { color: var(--mut); }
+.page .project { font-size: 15px; font-weight: 500; margin: 0 0 4mm; }
+.page h2.h { margin: 4px 0 2px; font-size: 20px; font-weight: 600; letter-spacing: -.01em; }
+.page .lede { margin: 0 0 3mm; color: var(--mut); font-size: 13px; }
+.page .sec { padding: 5mm 0 4mm; border-bottom: 1px solid var(--line); break-inside: avoid; }
+.page .sec:last-child { border-bottom: 0; }
+.page .txt { font-size: 13.5px; line-height: 1.6; color: #222; }
+.page .notes { min-height: 44px; font-size: 13.5px; line-height: 1.55; border-left: 2px solid var(--ink); padding: 4px 0 4px 10px; }
+
+/* Line items */
+.page table.items { width: 100%; border-collapse: collapse; }
+.page .items th { text-align: left; font: 11px 'Geist Mono', monospace; letter-spacing: .06em; color: var(--mut); font-weight: 400; padding: 0 0 8px; border-bottom: 1.5px solid var(--ink); }
+.page .items th.r, .page .items td.r { text-align: right; }
+.page .items td { padding: 8px 0; border-bottom: 1px solid #EFEFEF; vertical-align: top; font-size: 13.5px; }
+.page .items td .d { font-weight: 600; }
+.page .items td .s { color: #555; font-size: 12.5px; line-height: 1.5; margin-top: 2px; }
+.page .items td.q, .page .items td.u { width: 70px; }
+.page .items td.u { width: 90px; }
+.page .items td.t { width: 100px; font-weight: 500; }
+.page .items td.x { width: 28px; text-align: right; }
+.page .items tr { break-inside: avoid; }
+.page .rm { border: 0; background: none; color: #B0B0B0; cursor: pointer; font-size: 16px; line-height: 1; }
+.page .rm:hover { color: var(--red); }
+.page .adds { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.page .add { font: 12px 'Geist Mono', monospace; border: 1px dashed #BDBDBD; background: #fff; padding: 7px 12px; border-radius: 999px; cursor: pointer; color: var(--ink); }
+.page .add:hover { border-style: solid; border-color: var(--ink); }
+
+/* Totals */
+.page .totals { display: flex; justify-content: space-between; gap: 24px; margin-top: 5mm; align-items: flex-start; break-inside: avoid; }
+.page .sum { width: 300px; font-size: 14px; }
+.page .sum .r { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid #EFEFEF; gap: 10px; }
+.page .sum .r.disc span:last-child { color: #7A5A12; }
+.page .sum .r.sub-mut span { color: var(--mut); }
+.page .sum .due { display: flex; justify-content: space-between; align-items: baseline; background: var(--ink); color: #fff; padding: 12px 14px; margin-top: 8px; position: relative; }
+.page .sum .due::after { content: ""; position: absolute; right: -4px; top: -4px; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); }
+.page .sum .due b { font-size: 22px; letter-spacing: -.01em; }
+.page .sum .r.disc.is-empty { opacity: .45; }
+.page .sum .r.disc.is-empty:hover, .page .sum .r.disc.is-empty:focus-within { opacity: 1; }
+.page .discpick { font: 10.5px 'Geist Mono', monospace; border: 1px dashed #CFCFCF; background: #fff; border-radius: 999px; padding: 2px 6px; margin-left: 4px; cursor: pointer; }
+
+/* Terms grid */
+.page .terms { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; font-size: 12.5px; line-height: 1.6; color: #333; break-inside: avoid; }
+.page .terms .lab { display: block; margin-bottom: 6px; }
+.page .tnote { position: relative; }
+.page .tnote .stamp { position: absolute; left: 10px; bottom: 6px; background: #fff; }
+.page .stamp { white-space: nowrap; display: inline-flex; align-items: center; gap: 8px; border: 1.5px solid var(--ink); padding: 6px 12px; font: 500 12px 'Geist Mono', monospace; letter-spacing: .08em; transform: rotate(-3deg); }
+.page .stamp::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); }
+
+/* Next-step panel (ink) */
+.page .next { margin-top: 6mm; background: var(--ink); color: #fff; padding: 7mm 8mm; position: relative; overflow: hidden; break-inside: avoid; }
+.page .next h3 { margin: 0 0 6px; font-size: 19px; }
+.page .next p, .page .next .field { margin: 0; color: #C9C9C9; font-size: 13.5px; line-height: 1.6; max-width: 120mm; position: relative; }
+.page .next b { color: #fff; }
+.page .next .cta { margin-top: 10px; display: flex; gap: 18px; flex-wrap: wrap; font: 12px 'Geist Mono', monospace; color: #fff; position: relative; }
+.page .next .field:focus { background: #1A1A1A; }
+
+/* Signatures */
+.page .sigs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12mm; margin-top: 4mm; break-inside: avoid; }
+.page .sig .lab { display: block; margin-bottom: 10mm; }
+.page .sig .line { border-bottom: 1px solid var(--ink); height: 12mm; }
+.page .sig .cap { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; margin-top: 3mm; font-size: 12.5px; }
+.page .sig .cap > div { border-bottom: 1px solid #CFCFCF; padding: 2px 0 4px; min-height: 22px; }
+.page .sig .cap small { display: block; font: 10px 'Geist Mono', monospace; letter-spacing: .06em; color: var(--mut); margin-top: 3px; }
+
+/* Checkbox rows */
+.page .cks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; }
+.page .ck { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; border-bottom: 1px solid #F0F0F0; font-size: 13.5px; cursor: pointer; break-inside: avoid; }
+.page .ck .box { width: 16px; height: 16px; flex: none; border: 1.5px solid var(--ink); display: grid; place-items: center; margin-top: 1px; background: #fff; }
+.page .ck.on .box { background: var(--ink); }
+.page .ck.on .box::after { content: ""; width: 7px; height: 4px; border: 2px solid #fff; border-top: 0; border-right: 0; transform: rotate(-45deg) translate(1px, -1px); }
+
+/* Ruled answer space (questionnaire) */
+.page .ans { min-height: 22px; font-size: 13.5px; line-height: 1.6; border-bottom: 1px solid #DCDCDC; padding: 2px 0 4px; }
+.page .ans.tall { min-height: 60px; background-image: repeating-linear-gradient(transparent 0 21px, #EEEEEE 21px 22px); }
+.page .qa { padding: 3mm 0; break-inside: avoid; }
+.page .qa .lab { display: block; margin-bottom: 4px; }
+
+/* Footer band */
+.page .foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 5mm 16mm; background: var(--ink); color: #9A9A9A; font: 10px 'Geist Mono', monospace; letter-spacing: .05em; }
+.page .foot svg { height: 14px; width: auto; flex: none; }
+
+/* ---------- Audit ---------- */
+.page .summary { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 22px; align-items: center; padding: 7mm 0 6mm; border-bottom: 1px solid var(--line); }
+.page .gauge { position: relative; width: 150px; height: 150px; }
+.page .gauge .num { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.page .gauge .big { font-size: 38px; font-weight: 600; letter-spacing: -.02em; line-height: 1; }
+.page .abars { display: flex; flex-direction: column; gap: 8px; }
+.page .abar { display: grid; grid-template-columns: 150px minmax(0, 1fr) 34px; gap: 10px; align-items: center; font-size: 13px; }
+.page .track { height: 6px; background: #EFEFEF; position: relative; }
+.page .fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--ink); transition: width .3s; }
+.page .sec-head { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; }
+.page .q { margin: 0; color: var(--mut); font-size: 13px; }
+.page .score { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex: none; }
+.page .dots { display: flex; gap: 5px; }
+.page .dot { width: 18px; height: 18px; border: 1.5px solid var(--ink); background: #fff; border-radius: 50%; cursor: pointer; padding: 0; }
+.page .dot.on { background: var(--ink); }
+.page .dot.on.last { background: var(--gold); border-color: var(--gold); }
+.page .rows { margin: 10px 0 8px; border-top: 1px solid #F0F0F0; }
+.page .row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 6px 0; border-bottom: 1px solid #F0F0F0; font-size: 13.5px; }
+.page .yn { display: flex; flex: none; border: 1px solid #CFCFCF; border-radius: 999px; overflow: hidden; }
+.page .opt { font: 500 11px 'Geist Mono', monospace; letter-spacing: .04em; padding: 5px 10px; border: 0; background: #fff; color: #7A7A7A; cursor: pointer; }
+.page .opt + .opt { border-left: 1px solid #CFCFCF; }
+.page .opt.sel[data-v="y"] { background: var(--ink); color: #fff; }
+.page .opt.sel[data-v="p"] { background: #DCDCDC; color: var(--ink); }
+.page .opt.sel[data-v="n"] { background: #fff; color: #B3261E; box-shadow: inset 0 0 0 1.5px #B3261E; }
+.page .field-label { margin: 8px 0 4px; }
+.page .fixes { padding: 7mm 0 4mm; break-inside: avoid; }
+.page .fixes h2 { margin: 0 0 4px; font-size: 22px; font-weight: 600; }
+.page .fix { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 12px; padding: 10px 0; border-bottom: 1px solid #F0F0F0; }
+.page .fix .n { width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--ink); display: flex; align-items: center; justify-content: center; font: 500 12px 'Geist Mono', monospace; }
+.page .fix .t { font-weight: 600; font-size: 15px; min-height: 20px; }
+.page .fix .d { font-size: 13.5px; color: #444; min-height: 18px; margin-top: 2px; line-height: 1.5; }
+
+/* ---------- Phone: reflow (screen only; print is always A4) ---------- */
+@media screen and (max-width: 860px) {
+  .page { width: auto; min-height: 0; margin: 12px; }
+  .page .band, .page .band--tall { padding: 22px 18px 18px; flex-direction: column; align-items: flex-start; }
+  .page .band .right { text-align: left; }
+  .page .kv { justify-content: start; }
+  .page .parties, .page .meta { padding: 18px; grid-template-columns: 1fr; gap: 14px; }
+  .page .body { padding: 14px 18px 22px; }
+  .page .terms, .page .cks, .page .sigs { grid-template-columns: 1fr; }
+  .page .totals { flex-direction: column-reverse; }
+  .page .tnote { display: none; }
+  .page .sum { width: 100%; }
+  .page .summary { grid-template-columns: 1fr; justify-items: center; }
+  .page .summary > div:last-child { width: 100%; }
+  .page .abar { grid-template-columns: 110px 1fr 30px; }
+  .page .row { flex-direction: column; align-items: flex-start; }
+  .page .foot { padding: 14px 18px; flex-wrap: wrap; }
+  .page .cross { display: none; }
+  /* Line items stack: description on top, then qty × unit ... amount. */
+  .page .items thead { display: none; }
+  .page .items tr { display: grid; grid-template-columns: auto auto minmax(0, 1fr) auto; column-gap: 8px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid #EFEFEF; }
+  .page .items td { border: 0; padding: 0; width: auto !important; }
+  .page .items td:first-child { grid-column: 1 / -1; margin-bottom: 6px; }
+  .page .items td.q::before { content: "QTY "; font: 10px 'Geist Mono', monospace; color: var(--mut); }
+  .page .items td.u::before { content: "× R"; font: 10px 'Geist Mono', monospace; color: var(--mut); }
+  .page .items td.t::before { content: "R"; }
+  .page .next { padding: 18px; }
+}
+
+/* ---------- Print: only the A4 page ---------- */
+/* Zero margins on every page, so the fixed footer sits at the same place on each one.
+   The repeating thead gives continuation pages their top margin; page 1's band is pulled up over it. */
+@page { size: A4; margin: 0; }
+@media print {
+  html, body { background: #fff !important; }
+  .top, .side, .bnav, .doctools, .docnote, .toast, .noprint, .modal { display: none !important; }
+  .main { margin: 0 !important; padding: 0 !important; background: #fff !important; }
+  .view { padding: 0 !important; max-width: none !important; }
+  .docwrap { margin: 0 !important; padding: 0 !important; background: #fff !important; min-height: 0 !important; }
+  .page { margin: 0; box-shadow: none; width: auto; min-height: 0; display: block !important; }
+  .page .pt { display: table !important; width: 100%; }
+  .page .pt > tbody { display: table-row-group !important; }
+  .page .pt > tbody > tr { display: table-row !important; }
+  .page .pt > tbody > tr > td { display: table-cell !important; padding: 0; }
+  .page .pt > thead { display: table-header-group !important; }
+  .page .pt > tfoot { display: table-footer-group !important; }
+  .page .pt > tbody > tr > td > :first-child { margin-top: -10mm; }
+  .page .body { padding-bottom: 0; }
+  .page .foot { position: fixed; left: 0; right: 0; bottom: 0; }
+  .page .field:empty::before { content: ""; }
+  .page .field:focus { background: none; }
+  .page .inline { border: 0; }
+  .page .pickable, .page .datef { border: 0 !important; }
+  .page .opt:not(.sel) { color: #C4C4C4; }
+  .page .terms { display: grid !important; }
+  .page .sum .r.disc.is-empty { display: none !important; }
+  .page .items tr { break-inside: avoid; }
+}

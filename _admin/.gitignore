@@ -1,0 +1,8 @@
+node_modules/
+.wrangler/
+.dev.vars
+# Private seed: clients, bank details, the JN Luxe invoice. Never commit (this repo is public).
+seed/*.private.json
+tests/out/
+# Prototypes (the invoice holds bank details and client names). Local only.
+reference/

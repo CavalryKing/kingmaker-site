@@ -1,0 +1,23 @@
+{
+  "name": "kingmaker-admin",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --port 8790",
+    "deploy": "wrangler d1 migrations apply kingmaker-admin --remote && wrangler deploy",
+    "db:migrate:local": "wrangler d1 migrations apply kingmaker-admin --local",
+    "db:migrate:remote": "wrangler d1 migrations apply kingmaker-admin --remote",
+    "seed:local": "node tools/seed.mjs --local",
+    "seed:remote": "node tools/seed.mjs --remote",
+    "test": "node --test tests/unit.test.mjs",
+    "test:screens": "node tests/screens.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.65.0",
+    "wrangler": "^4.159.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

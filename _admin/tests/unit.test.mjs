@@ -41,3 +41,26 @@ test('import validation rejects bad files', () => {
   assert.match(validate({ ...ok, tables: { ...ok.tables, documents: [{ type: 'invoice', number: 'A', client_id: 'nope' }] } }), /not in the file/);
   assert.match(validate({ ...ok, tables: { ...ok.tables, documents: [{ type: 'x', number: 'A' }] } }), /unknown type/);
 });
+
+test('dashboard money: drafts/voids ignored, paid by paid date, outstanding = sent', async () => {
+  const { moneyStats } = await import('../public/js/views/dashboard.js');
+  const docs = [
+    { type: 'invoice', status: 'paid', issued_on: '2026-11-27', amount_cents: 0, paid_cents: 0, paid_on: '2026-11-27' },
+    { type: 'invoice', status: 'paid', issued_on: '2026-10-30', amount_cents: 400000, paid_cents: 400000, paid_on: '2026-11-02' },
+    { type: 'invoice', status: 'sent', issued_on: '2026-11-10', amount_cents: 195000, paid_cents: 0 },
+    { type: 'invoice', status: 'draft', issued_on: '2026-11-11', amount_cents: 999900, paid_cents: 0 },
+    { type: 'invoice', status: 'void', issued_on: '2026-11-12', amount_cents: 888800, paid_cents: 0 },
+    { type: 'quote', status: 'sent', issued_on: '2026-11-12', amount_cents: 777700, paid_cents: 0 },
+  ];
+  const clients = [
+    { stage: 'building', data: { retainer: true, retainerAmount: '' } },
+    { stage: 'done', data: { retainer: true, retainerAmount: 0 } },
+    { stage: 'lost', data: { retainer: true, retainerAmount: 500 } },
+  ];
+  const m = moneyStats(docs, clients, { retainer: { price: 399 } }, '2026-11-28');
+  assert.deepEqual(m.month, { invoiced: 1950, paid: 4000, outstanding: 1950 });
+  assert.deepEqual(m.year, { invoiced: 5950, paid: 4000, outstanding: 1950 });
+  assert.equal(m.mrr, 399);
+  assert.equal(m.retainers, 2);
+  assert.equal(m.monthLabel, 'November');
+});
